@@ -141,7 +141,7 @@ function HomePage() {
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="border-l-4 border-wine bg-white p-5">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-wine">QR listo</p>
-                  <p className="mt-2 text-stone-650">La página de carta se abre directamente en `/carta`.</p>
+                  <p className="mt-2 text-stone-650">La página de carta se abre directamente en carta.</p>
                 </div>
                 <div className="border-l-4 border-olive bg-white p-5">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-olive">Editable</p>
@@ -305,6 +305,6 @@ function Footer() {
 }
 
 export default function App() {
-  const path = window.location.pathname
-  return path === '/carta' ? <MenuPage /> : <HomePage />
+  const path = window.location.hash
+  return path === '#/carta' ? <MenuPage /> : <HomePage />
 }
