@@ -27,7 +27,7 @@ function Header({ page }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-stone-950/75 text-white backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <a href="/" className="group flex items-center gap-3" aria-label="Ir al inicio">
+        <a href="#/" className="group flex items-center gap-3" aria-label="Ir al inicio">
           <span className="grid size-10 place-items-center rounded-full border border-amber-200/35 bg-amber-100/10">
             <Utensils className="size-5 text-amber-100" />
           </span>
@@ -40,13 +40,13 @@ function Header({ page }) {
         <nav className="flex items-center gap-2 text-sm font-medium">
           <a
             className={`rounded-full px-4 py-2 transition ${page === 'home' ? 'bg-white text-stone-950' : 'text-stone-100 hover:bg-white/10'}`}
-            href="/"
+            href="#/"
           >
             Inicio
           </a>
           <a
             className={`rounded-full px-4 py-2 transition ${page === 'menu' ? 'bg-white text-stone-950' : 'text-stone-100 hover:bg-white/10'}`}
-            href="/carta"
+            href="#/carta"
           >
             Carta
           </a>
@@ -101,7 +101,7 @@ function HomePage() {
                 Un sitio de pueblo para comer bien, compartir mesa y disfrutar de platos de siempre con una presentación cuidada.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/carta">
+                <ButtonLink href="#/carta">
                   Ver carta completa <ArrowRight className="size-4" />
                 </ButtonLink>
                 <ButtonLink href={whatsappUrl()} variant="outline">
@@ -169,7 +169,7 @@ function HomePage() {
               <ButtonLink href={whatsappUrl()}>
                 <Phone className="size-4" /> WhatsApp
               </ButtonLink>
-              <ButtonLink href="/carta" variant="outline">
+              <ButtonLink href="#/carta" variant="outline">
                 <MenuIcon className="size-4" /> Carta
               </ButtonLink>
             </div>
