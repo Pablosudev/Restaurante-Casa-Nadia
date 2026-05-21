@@ -157,39 +157,24 @@ export const menuData = [
     ],
   },
   {
-    id: "bocadillos",
-    title: "Bocadillos",
+    id: 'raciones',
+    title: 'Raciones',
     items: [
       {
-        name: "Bocadillo de Lomo",
-        description: "",
-        price: "6,50 €",
+        name: 'Patatas bravas Casa Nadia',
+        description: 'Patata crujiente con salsa brava suave y alioli.',
+        price: '7,50 €',
       },
       {
-        name: "Bocadillo de Calamares",
-        description: "",
-        price: "6,50 €",
+        name: 'Oreja a la plancha',
+        description: 'Bien tostada, con ajo y perejil.',
+        price: '11,00 €',
       },
       {
-        name: "Bocadillo de Bacon y queso",
-        description: "",
-        price: "6,50 €",
-      },
-      {
-        name: "Sándwich mixto",
-        description: "Jamón york, queso y patatas fritas.",
-        price: "5,50 €",
-      },
-      {
-        name: "Sándwich mixto especial",
-        description: "Jamón york, queso, patatas fritas y huevo frito.",
-        price: "6,50 €",
-      },
-      {
-        name: "Chiquito",
-        description:
-          "Bacon, queso, huevo frito, lechuga, tomate, cebolla, patatas fritas y refresco.",
-        price: "6,50 €",
+        name: 'Calamares a la romana',
+        description: 'Rebozado ligero y limón.',
+        price: '12,00 €',
+        allergens: 'Gluten, moluscos',
       },
     ],
   },
