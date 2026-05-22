@@ -11,14 +11,8 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { menuData, restaurantInfo } from "./data/menuData";
-<<<<<<< HEAD
 import heroImage from "./assets/casa-nadia-hero.png";
 
-=======
-
-const heroImage =
-  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=85";
->>>>>>> 50350ca1ae349aed6467e43d5a1737892752f16c
 const tableImage =
   "https://images.unsplash.com/photo-1547573854-74d2a71d0826?auto=format&fit=crop&w=1200&q=85";
 const foodImage =
@@ -135,11 +129,7 @@ function HomePage() {
             {[
               [
                 "Comida casera",
-<<<<<<< HEAD
                 "Raciones, platos combinados, hamburguesas y postres con sabor de siempre.",
-=======
-                "Raciones, carnes, pescados y postres con sabor de siempre.",
->>>>>>> 50350ca1ae349aed6467e43d5a1737892752f16c
                 ChefHat,
               ],
               [
@@ -170,20 +160,10 @@ function HomePage() {
             <div>
               <p className="section-kicker">Casa Nadia</p>
               <h2 className="mt-3 font-serif text-4xl leading-tight text-stone-950 sm:text-5xl">
-<<<<<<< HEAD
                 Ven a disfrutar en Casa Nadia
               </h2>
               <p className="mt-5 text-lg leading-8 text-stone-650">
                 Los fines de semana, el restaurante se llena de vecinos y visitantes que vienen a disfrutar de nuestra comida casera y el ambiente acogedor. Es un lugar perfecto para compartir una comida tranquila, celebrar ocasiones especiales o simplemente desconectar alrededor de una buena mesa. ¡Te esperamos para que formes parte de la familia de Casa Nadia!
-=======
-                Una web sencilla, bonita y pensada para que la carta se lea bien
-                desde el móvil.
-              </h2>
-              <p className="mt-5 text-lg leading-8 text-stone-650">
-                Esta primera versión deja preparada la base visual: fotos
-                amplias, botones útiles y una carta estructurada por categorías
-                para cambiar platos y precios sin rehacer el diseño.
->>>>>>> 50350ca1ae349aed6467e43d5a1737892752f16c
               </p>
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="border-l-4 border-wine bg-white p-5">
@@ -280,7 +260,7 @@ function MenuPage() {
           </div>
         </section>
 
-        <nav className="sticky top-[73px] z-40 -mx-4 mb-8 overflow-x-auto border-b border-stone-200 bg-cream/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+        <nav className="sticky top-[65px] z-40 -mx-4 mb-8 overflow-x-auto border-b border-stone-200 bg-cream/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="flex min-w-max gap-2">
             {menuData.map((section) => (
               <button

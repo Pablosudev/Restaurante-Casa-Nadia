@@ -8,8 +8,4 @@ export default defineConfig({
   build: {
     outDir: 'docs'
   }
-<<<<<<< HEAD
 })
-=======
-})
->>>>>>> 50350ca1ae349aed6467e43d5a1737892752f16c
