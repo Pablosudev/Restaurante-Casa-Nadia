@@ -1,7 +1,9 @@
 import {
   ArrowRight,
+  CalendarDays,
   ChefHat,
   Clock,
+  Flame,
   MapPin,
   Menu as MenuIcon,
   Phone,
@@ -12,11 +14,8 @@ import {
 import { useState, useEffect } from "react";
 import { menuData, restaurantInfo } from "./data/menuData";
 import heroImage from "./assets/casa-nadia-hero.png";
-
-const tableImage =
-  "https://images.unsplash.com/photo-1547573854-74d2a71d0826?auto=format&fit=crop&w=1200&q=85";
-const foodImage =
-  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=85";
+import menuDelDiaImage from "./assets/menu-del-dia.png";
+import pollosAsadosImage from "./assets/pollos-asados.png";
 
 function whatsappUrl() {
   const text = encodeURIComponent(
@@ -156,8 +155,8 @@ function HomePage() {
         </section>
 
         <section className="px-4 py-14 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-            <div>
+          <div className="mx-auto max-w-7xl text-center">
+            <div className="mx-auto max-w-4xl">
               <p className="section-kicker">Casa Nadia</p>
               <h2 className="mt-3 font-serif text-4xl leading-tight text-stone-950 sm:text-5xl">
                 Ven a disfrutar en Casa Nadia
@@ -165,36 +164,60 @@ function HomePage() {
               <p className="mt-5 text-lg leading-8 text-stone-650">
                 Los fines de semana, el restaurante se llena de vecinos y visitantes que vienen a disfrutar de nuestra comida casera y el ambiente acogedor. Es un lugar perfecto para compartir una comida tranquila, celebrar ocasiones especiales o simplemente desconectar alrededor de una buena mesa. ¡Te esperamos para que formes parte de la familia de Casa Nadia!
               </p>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                <div className="border-l-4 border-wine bg-white p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-wine">
-                    QR listo
-                  </p>
-                  <p className="mt-2 text-stone-650">
-                    La página de carta se abre directamente en carta.
-                  </p>
-                </div>
-                <div className="border-l-4 border-olive bg-white p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-olive">
-                    Editable
-                  </p>
-                  <p className="mt-2 text-stone-650">
-                    Platos, precios, horario y contacto viven en datos claros.
-                  </p>
-                </div>
-              </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <img
-                className="h-80 w-full rounded-lg object-cover sm:mt-16"
-                src={foodImage}
-                alt="Plato casero servido en mesa"
-              />
-              <img
-                className="h-80 w-full rounded-lg object-cover"
-                src={tableImage}
-                alt="Mesa acogedora preparada en restaurante"
-              />
+            <div className="mt-12 grid gap-8 text-left">
+              <article className="grid overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-stone-200 lg:grid-cols-[1.08fr_0.92fr]">
+                <img
+                  className="h-80 w-full object-cover sm:h-[28rem] lg:h-full"
+                  src={pollosAsadosImage}
+                  alt="Pollos asados girando en el asador"
+                />
+                <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+                  <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-wine">
+                    <Flame className="size-4" /> Por encargo
+                  </p>
+                  <h3 className="mt-3 font-serif text-4xl leading-tight text-stone-950 sm:text-5xl">
+                    Pollos asados listos para llevar
+                  </h3>
+                  <p className="mt-5 text-lg leading-8 text-stone-650">
+                    Pollos dorados en el asador, preparados bajo pedido para
+                    llevar y compartir en casa. Una opción cómoda para comidas
+                    familiares, fines de semana o días en los que apetece
+                    resolver la mesa sin complicarse.
+                  </p>
+                  <div className="mt-7">
+                    <ButtonLink href={whatsappUrl()}>
+                      <Phone className="size-4" /> Encargar por WhatsApp
+                    </ButtonLink>
+                  </div>
+                </div>
+              </article>
+
+              <article className="grid overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-stone-200 lg:grid-cols-[0.92fr_1.08fr]">
+                <img
+                  className="h-80 w-full object-cover sm:h-[28rem] lg:order-last lg:h-full"
+                  src={menuDelDiaImage}
+                  alt="Plato casero de menú del día con patatas, pimientos y carne"
+                />
+                <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+                  <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-olive">
+                    <CalendarDays className="size-4" /> Entre semana
+                  </p>
+                  <h3 className="mt-3 font-serif text-4xl leading-tight text-stone-950 sm:text-5xl">
+                    Menús del día
+                  </h3>
+                  <p className="mt-5 text-lg leading-8 text-stone-650">
+                    También tenemos menús del día con platos sencillos,
+                    abundantes y de cocina casera. Una opción cercana para comer
+                    bien a diario en Casa Nadia.
+                  </p>
+                  <div className="mt-7">
+                    <ButtonLink href="#/carta" variant="secondary">
+                      <MenuIcon className="size-4" /> Ver carta
+                    </ButtonLink>
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
         </section>
@@ -258,6 +281,40 @@ function MenuPage() {
               <InfoPill icon={Phone} label="Reserva" value="WhatsApp" />
             </div>
           </div>
+        </section>
+
+        <section className="my-8 grid gap-4 md:grid-cols-2">
+          <article className="rounded-lg bg-white p-5 shadow-sm ring-1 ring-stone-200">
+            <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-wine">
+              <Flame className="size-4" /> Por encargo
+            </p>
+            <h2 className="mt-2 font-serif text-3xl text-stone-950">
+              Pollos asados
+            </h2>
+            <p className="mt-3 leading-7 text-stone-650">
+              Preparamos pollos asados bajo pedido. Consulta disponibilidad y
+              horario para recoger.
+            </p>
+            <ButtonLink href={whatsappUrl()} className="mt-5">
+              <Phone className="size-4" /> Encargar
+            </ButtonLink>
+          </article>
+
+          <article className="rounded-lg bg-white p-5 shadow-sm ring-1 ring-stone-200">
+            <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-olive">
+              <CalendarDays className="size-4" /> Entre semana
+            </p>
+            <h2 className="mt-2 font-serif text-3xl text-stone-950">
+              Menú del día
+            </h2>
+            <p className="mt-3 leading-7 text-stone-650">
+              También tenemos menú del día con cocina casera. Pregunta por los
+              platos disponibles en el restaurante.
+            </p>
+            <ButtonLink href={whatsappUrl()} variant="secondary" className="mt-5">
+              <Phone className="size-4" /> Consultar
+            </ButtonLink>
+          </article>
         </section>
 
         <nav className="sticky top-[65px] z-40 -mx-4 mb-8 overflow-x-auto border-b border-stone-200 bg-cream/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
