@@ -155,28 +155,7 @@ export const menuData = [
       },
     ],
   },
-  {
-    id: 'raciones',
-    title: 'Raciones',
-    items: [
-      {
-        name: 'Patatas bravas Casa Nadia',
-        description: 'Patata crujiente con salsa brava suave y alioli.',
-        price: '7,50 €',
-      },
-      {
-        name: 'Oreja a la plancha',
-        description: 'Bien tostada, con ajo y perejil.',
-        price: '11,00 €',
-      },
-      {
-        name: 'Calamares a la romana',
-        description: 'Rebozado ligero y limón.',
-        price: '12,00 €',
-        allergens: 'Gluten, moluscos',
-      },
-    ],
-  },
+ 
   {
     id: "platos",
     title: "Platos Combinados",
