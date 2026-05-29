@@ -156,28 +156,7 @@ export const menuData = [
       },
     ],
   },
-  {
-    id: 'raciones',
-    title: 'Raciones',
-    items: [
-      {
-        name: 'Patatas bravas Casa Nadia',
-        description: 'Patata crujiente con salsa brava suave y alioli.',
-        price: '7,50 €',
-      },
-      {
-        name: 'Oreja a la plancha',
-        description: 'Bien tostada, con ajo y perejil.',
-        price: '11,00 €',
-      },
-      {
-        name: 'Calamares a la romana',
-        description: 'Rebozado ligero y limón.',
-        price: '12,00 €',
-        allergens: 'Gluten, moluscos',
-      },
-    ],
-  },
+
   {
     id: "platos",
     title: "Platos Combinados",
@@ -185,17 +164,55 @@ export const menuData = [
       {
         name: "Cinta de lomo",
         description: "Con huevo, patatas fritas y ensalada.",
-        price: "4,50 €",
+        price: "8,50 €",
       },
       {
         name: "Pechuga de pollo",
         description: "Con huevo, patatas fritas y ensalada.",
-        price: "4,50 €",
+        price: "8,50 €",
       },
       {
         name: "Chuleta de cerdo",
         description: "Con huevo, patratas fritas y ensalada.",
         price: "8,50 €",
+      },
+    ],
+  },
+   {
+    id: "bocadillos",
+    title: "Bocadillos",
+    items: [
+      {
+        name: "Calamares",
+        description: "",
+        price: "6,50 €",
+      },
+      {
+        name: "Lomo",
+        description: "",
+        price: "6,50 €",
+      },
+      {
+        name: "Pechuga de pollo",
+        description: "Empanada o a la plancha.",
+        price: "6,50 €",
+      },
+      {
+        name: "Bacon queso",
+        description: "",
+        price: "6,50 €",
+      }, {
+        name: "Sándwich mixto",
+        description: "Jamón York, Queso y patatas fritas.",
+        price: "5,50 €",
+      }, {
+        name: "Sándwich mixto especial",
+        description: "Bacon, jamón York, queso, huevo, lechuga , tomate, cebolla , patatas fritas y refresco.",
+        price: "6,50 €",
+      }, {
+        name: "Chiquito",
+        description: "Bacon, queso, huevo, lechuga, tomate, cebolla, patatas fritas y refresco.",
+        price: "12,00 €",
       },
     ],
   },
