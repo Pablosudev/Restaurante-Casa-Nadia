@@ -4,8 +4,7 @@ export const restaurantInfo = {
   phone: "+34 949 38 78 50",
   whatsapp: "34000000000",
   address: "Calle Alberca 16, Driebes, Guadalajara",
-  hours: "Abierto de martes a domingo · 9:00 - 23:00",
-  note: "Datos provisionales: sustituir por teléfono, dirección y horarios reales.",
+  hours: "De martes a jueves · 8:30 - 17:30\nDe viernes a domingo · 8:30 - Cierre",
 };
 
 export const menuData = [

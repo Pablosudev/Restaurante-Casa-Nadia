@@ -231,10 +231,7 @@ function HomePage() {
               <h2 className="mt-3 font-serif text-4xl">
                 Ven a comer a Casa Nadia
               </h2>
-              <p className="mt-4 max-w-2xl text-stone-300">
-                Actualiza aquí el teléfono real y la dirección exacta cuando los
-                tengamos cerrados.
-              </p>
+           
             </div>
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
               <ButtonLink href={whatsappUrl()}>
@@ -426,7 +423,7 @@ function Footer() {
         </div>
         <div>
           <p className="font-semibold text-stone-950">Horario</p>
-          <p className="mt-2">{restaurantInfo.hours}</p>
+          <p className="mt-2 whitespace-pre-line">{restaurantInfo.hours}</p>
         </div>
         <div className="md:text-right">
           <p className="font-semibold text-stone-950">Contacto</p>
