@@ -2,7 +2,7 @@ export const restaurantInfo = {
   name: "Restaurante Casa Nadia",
   town: "Driebes",
   phone: "+34 949 38 78 50",
-  whatsapp: "34000000000",
+  whatsapp: "+34 638 47 95 88",
   address: "Calle Alberca 16, Driebes, Guadalajara",
   hours: "De martes a jueves · 8:30 - 17:30\nDe viernes a domingo · 8:30 - Cierre",
 };
@@ -163,12 +163,12 @@ export const menuData = [
       {
         name: "Cinta de lomo",
         description: "Con huevo, patatas fritas y ensalada.",
-        price: "4,50 €",
+        price: "8,50 €",
       },
       {
         name: "Pechuga de pollo",
         description: "Con huevo, patatas fritas y ensalada.",
-        price: "4,50 €",
+        price: "8,50 €",
       },
       {
         name: "Chuleta de cerdo",
@@ -205,7 +205,7 @@ export const menuData = [
         name: "Plato Kebab",
         description:
           "Pollo, ternera, mixto, salsas, lechuga, tomate, cebolla, pan pita, patatas fritas y refresco.",
-        price: "9,00 €",
+        price: "9,50 €",
       },
     ],
   },
@@ -223,6 +223,119 @@ export const menuData = [
         description: "",
         price: "5,50 €",
       },
+    ],
+  },
+   {
+    id: "Postres",
+    title: "Postres",
+    items: [
+      {
+        name: "Tarta de queso",
+        description: "",
+        price: "4,50 €",
+      },
+      {
+        name: "Tarta tres leches",
+        description: "",
+        price: "4,50 €",
+      },
+      {
+        name: "Tart pistacho",
+        description: "",
+        price: "4,50 €",
+      },{
+        name: "Savarine",
+        description: "",
+        price: "3,50 €",
+      },{
+        name: "Amandine",
+        description: "",
+        price: "3,50 €",
+      },{
+        name: "Eclere",
+        description: "",
+        price: "4,50 €",
+      },{
+        name: "Flan casero",
+        description: "",
+        price: "4,50 €",
+      },{
+        name: "Papanasi",
+        description: "",
+        price: "6,50 €",
+      },{
+        name: "Tiramisú",
+        description: "",
+        price: "4,50 €",
+      },
+      
+
+    ],
+  },{
+    id: "desayunos",
+    title: "Desayunos",
+    items: [
+      {
+        name: "Café",
+        description: "",
+        price: "1,70 €",
+      },
+      {
+        name: "Infusión / Té",
+        description: "",
+        price: "1,70 €",
+      },
+      {
+        name: "Zumo de naranja natural",
+        description: "",
+        price: "2,50 €",
+      },{
+        name: "Tostada con tomate y mermelada + Café",
+        description: "",
+        price: "3,70 €",
+      },{
+        name: "Tostada con tomate + Café",
+        description: "",
+        price: "3,70 €",
+      },{
+        name: "Tostada con tomate y jamón + Café",
+        description: "",
+        price: "4,70 €",
+      },{
+        name: "Tostada con aguacate y tomate + Café",
+        description: "",
+        price: "4,70 €",
+      },{
+        name: "Tostada con aguacate, tomate y jamón + Café",
+        description: "",
+        price: "5,70 €",
+      },{
+        name: "Churros",
+        description: "Precio por unidad",
+        price: "0,50 €",
+      },{
+        name: "Porras",
+        description: "Precio por unidad",
+        price: "0,60 €",
+      },{
+        name: "Napolitana",
+        description: "",
+        price: "2,00 €",
+      },{
+        name: "Cruasán",
+        description: "",
+        price: "2,00 €",
+      },{
+        name: "Tartitas de manzana",
+        description: "",
+        price: "2,00 €",
+      },{
+        name: "Bollo",
+        description: "",
+        price: "1,00 €",
+      }
+    
+
     ],
   },
 ];
