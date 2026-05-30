@@ -1,4 +1,4 @@
-import {
+﻿import {
   ArrowRight,
   CalendarDays,
   ChefHat,
@@ -9,10 +9,12 @@ import {
   Phone,
   Soup,
   Sparkles,
+  Truck,
   Utensils,
+  X,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { menuData, restaurantInfo } from "./data/menuData";
+import { breakfastMenuData, foodMenuData, menuData, restaurantInfo } from "./data/menuData";
 import heroImage from "./assets/casa-nadia-hero.png";
 import menuDelDiaImage from "./assets/menu-del-dia.png";
 import pollosAsadosImage from "./assets/pollos-asados.png";
@@ -185,6 +187,16 @@ function HomePage() {
                     familiares, fines de semana o días en los que apetece
                     resolver la mesa sin complicarse.
                   </p>
+                  <div className="mt-5 grid gap-2 text-stone-800">
+                    <div className="flex items-center justify-between gap-4 border-b border-stone-200 pb-2">
+                      <span>Pollo asado</span>
+                      <span className="font-bold text-wine">10,00 €</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span>Pollo asado con patatas y pimiento</span>
+                      <span className="font-bold text-wine">13,00 €</span>
+                    </div>
+                  </div>
                   <div className="mt-7">
                     <ButtonLink href={whatsappUrl()}>
                       <Phone className="size-4" /> Encargar por WhatsApp
@@ -211,6 +223,16 @@ function HomePage() {
                     abundantes y de cocina casera. Una opción cercana para comer
                     bien a diario en Casa Nadia.
                   </p>
+                  <div className="mt-5 grid gap-2 text-stone-800">
+                    <div className="flex items-center justify-between gap-4 border-b border-stone-200 pb-2">
+                      <span>Entre semana</span>
+                      <span className="font-bold text-wine">15,00 €</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span>Fin de semana</span>
+                      <span className="font-bold text-wine">22,00 €</span>
+                    </div>
+                  </div>
                   <div className="mt-7">
                     <ButtonLink href="#/carta" variant="secondary">
                       <MenuIcon className="size-4" /> Ver carta
@@ -222,6 +244,45 @@ function HomePage() {
           </div>
         </section>
 
+
+        <section className="bg-cream px-4 pb-16 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl rounded-lg bg-white p-6 shadow-sm ring-1 ring-stone-200 sm:p-8">
+            <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+              <div>
+                <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-wine">
+                  <Truck className="size-4" /> Pedidos a domicilio
+                </p>
+                <h2 className="mt-3 font-serif text-4xl leading-tight text-stone-950">
+                  También llevamos Casa Nadia a casa
+                </h2>
+                <p className="mt-4 leading-7 text-stone-650">
+                  Haz tu pedido por WhatsApp y te confirmamos disponibilidad,
+                  horario de entrega y tiempo aproximado.
+                </p>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <article className="rounded-lg bg-cream p-5 ring-1 ring-stone-200">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-olive">
+                    Driebes
+                  </p>
+                  <p className="mt-3 text-lg font-semibold text-stone-950">
+                    Pedido mínimo 15,00 €
+                  </p>
+                </article>
+
+                <article className="rounded-lg bg-cream p-5 ring-1 ring-stone-200">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-olive">
+                    Almoguera, Mazuecos, Ambite y Mondéjar
+                  </p>
+                  <p className="mt-3 text-lg font-semibold text-stone-950">
+                    Pedido mínimo 20,00 € + 3,00 € de transporte
+                  </p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
         <section className="bg-stone-950 px-4 py-16 text-white sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div>
@@ -244,13 +305,14 @@ function HomePage() {
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );
 }
 
 function MenuPage() {
+  const [showHours, setShowHours] = useState(false);
+
   return (
     <div className="min-h-screen bg-cream text-stone-950">
       <Header page="menu" />
@@ -263,8 +325,7 @@ function MenuPage() {
               Casa Nadia
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-650">
-              Carta provisional para revisar desde el QR. Los platos y precios
-              están separados en datos editables para actualizarla con rapidez.
+              Carta organizada en dos apartados para que desde el QR sea más fácil elegir entre desayunos o comida y cena.
             </p>
           </div>
           <div className="rounded-lg bg-white p-5 shadow-sm ring-1 ring-stone-200">
@@ -274,8 +335,39 @@ function MenuPage() {
                 label="Ubicación"
                 value={restaurantInfo.town}
               />
-              <InfoPill icon={Clock} label="Horario" value="Consultar" />
-              <InfoPill icon={Phone} label="Reserva" value="WhatsApp" />
+              <div className="flex items-center gap-3">
+                <span className="grid size-10 place-items-center rounded-full bg-olive/10 text-olive">
+                  <Clock className="size-5" />
+                </span>
+                <span>
+                  <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                    Horario
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowHours(true)}
+                    className="block font-semibold text-stone-950 underline decoration-wine/35 underline-offset-4 transition hover:text-wine"
+                  >
+                    Consultar horarios
+                  </button>
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="grid size-10 place-items-center rounded-full bg-olive/10 text-olive">
+                  <Phone className="size-5" />
+                </span>
+                <span>
+                  <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                    Reserva
+                  </span>
+                  <a
+                    href={whatsappUrl()}
+                    className="block font-semibold text-stone-950 underline decoration-wine/35 underline-offset-4 transition hover:text-wine"
+                  >
+                    Reservar por WhatsApp
+                  </a>
+                </span>
+              </div>
             </div>
           </div>
         </section>
@@ -292,6 +384,16 @@ function MenuPage() {
               Preparamos pollos asados bajo pedido. Consulta disponibilidad y
               horario para recoger.
             </p>
+            <div className="mt-4 grid gap-2 text-stone-800">
+              <div className="flex items-center justify-between gap-4 border-b border-stone-200 pb-2">
+                <span>Pollo asado</span>
+                <span className="font-bold text-wine">10,00 €</span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span>Pollo asado con patatas y pimiento</span>
+                <span className="font-bold text-wine">13,00 €</span>
+              </div>
+            </div>
             <ButtonLink href={whatsappUrl()} className="mt-5">
               <Phone className="size-4" /> Encargar
             </ButtonLink>
@@ -308,6 +410,16 @@ function MenuPage() {
               También tenemos menú del día con cocina casera. Pregunta por los
               platos disponibles en el restaurante.
             </p>
+            <div className="mt-4 grid gap-2 text-stone-800">
+              <div className="flex items-center justify-between gap-4 border-b border-stone-200 pb-2">
+                <span>Entre semana</span>
+                <span className="font-bold text-wine">15,00 €</span>
+              </div>
+              <div className="flex items-center justify-between gap-4">
+                <span>Fin de semana</span>
+                <span className="font-bold text-wine">22,00 €</span>
+              </div>
+            </div>
             <ButtonLink href={whatsappUrl()} variant="secondary" className="mt-5">
               <Phone className="size-4" /> Consultar
             </ButtonLink>
@@ -316,7 +428,11 @@ function MenuPage() {
 
         <nav className="sticky top-[65px] z-40 -mx-4 mb-8 overflow-x-auto border-b border-stone-200 bg-cream/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="flex min-w-max gap-2">
-            {menuData.map((section) => (
+            {[
+              { id: "desayunos", title: "Desayunos" },
+              { id: "comida-cena", title: "Comida y cena" },
+              ...menuData.map((section) => ({ id: section.id, title: section.title })),
+            ].map((section) => (
               <button
                 key={section.id}
                 type="button"
@@ -333,49 +449,8 @@ function MenuPage() {
           </div>
         </nav>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          {menuData.map((section) => (
-            <section
-              id={section.id}
-              key={section.id}
-              className="scroll-mt-36 rounded-lg bg-white p-5 shadow-sm ring-1 ring-stone-200 sm:p-7"
-            >
-              <div className="mb-5 flex items-center justify-between gap-4 border-b border-stone-200 pb-4">
-                <h2 className="font-serif text-3xl text-stone-950">
-                  {section.title}
-                </h2>
-                <span className="rounded-full bg-olive/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-olive">
-                  {section.items.length} platos
-                </span>
-              </div>
-
-              <div className="space-y-5">
-                {section.items.map((item) => (
-                  <article key={item.name} className="menu-item">
-                    <div className="min-w-0">
-                      <h3 className="text-lg font-semibold leading-snug text-stone-950">
-                        {item.name}
-                      </h3>
-                      {item.description && (
-                        <p className="mt-1 leading-6 text-stone-600">
-                          {item.description}
-                        </p>
-                      )}
-                      {item.allergens && (
-                        <p className="mt-2 text-xs font-medium uppercase tracking-[0.16em] text-stone-500">
-                          Alérgenos: {item.allergens}
-                        </p>
-                      )}
-                    </div>
-                    <p className="shrink-0 rounded-full bg-cream px-3 py-1 text-base font-bold text-wine">
-                      {item.price}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+        <MenuBlock id="desayunos" title="Desayunos" sections={breakfastMenuData} />
+        <MenuBlock id="comida-cena" title="Comida y cena" sections={foodMenuData} />
 
         <section className="mt-10 rounded-lg bg-stone-950 p-6 text-white sm:p-8">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
@@ -389,12 +464,120 @@ function MenuPage() {
           </div>
         </section>
       </main>
-
       <Footer />
+      {showHours && <HoursModal onClose={() => setShowHours(false)} />}
     </div>
   );
 }
 
+
+
+function HoursModal({ onClose }) {
+  return (
+    <div
+      className="fixed inset-0 z-[80] grid place-items-center bg-stone-950/65 px-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="hours-modal-title"
+    >
+      <div className="w-full max-w-md rounded-lg bg-cream p-6 shadow-2xl ring-1 ring-stone-200">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="section-kicker">Horario</p>
+            <h2 id="hours-modal-title" className="mt-2 font-serif text-3xl text-stone-950">
+              Casa Nadia
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="grid size-10 place-items-center rounded-full bg-white text-stone-700 ring-1 ring-stone-200 transition hover:text-wine"
+            aria-label="Cerrar horarios"
+          >
+            <X className="size-5" />
+          </button>
+        </div>
+
+        <div className="mt-6 rounded-lg bg-white p-5 ring-1 ring-stone-200">
+          <p className="whitespace-pre-line font-semibold leading-7 text-stone-950">
+            {restaurantInfo.hours}
+          </p>
+          <p className="mt-4 leading-7 text-stone-650">
+            Para encargos de pollos asados o dudas sobre el menú del día,
+            consúltanos por WhatsApp.
+          </p>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href={whatsappUrl()} className="sm:flex-1">
+            <Phone className="size-4" /> WhatsApp
+          </ButtonLink>
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-5 text-sm font-semibold text-stone-950 ring-1 ring-stone-200 transition hover:bg-stone-50 sm:flex-1"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+function MenuBlock({ id, title, sections }) {
+  return (
+    <section id={id} className="scroll-mt-32">
+      <div className="mb-6 mt-10 flex items-center gap-4">
+        <h2 className="font-serif text-4xl text-stone-950">{title}</h2>
+        <span className="h-px flex-1 bg-stone-250" aria-hidden="true" />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        {sections.map((section) => (
+          <section
+            id={section.id}
+            key={section.id}
+            className="scroll-mt-36 rounded-lg bg-white p-5 shadow-sm ring-1 ring-stone-200 sm:p-7"
+          >
+            <div className="mb-5 flex items-center justify-between gap-4 border-b border-stone-200 pb-4">
+              <h3 className="font-serif text-3xl text-stone-950">
+                {section.title}
+              </h3>
+              <span className="rounded-full bg-olive/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-olive">
+                {section.items.length} platos
+              </span>
+            </div>
+
+            <div className="space-y-5">
+              {section.items.map((item) => (
+                <article key={item.name} className="menu-item">
+                  <div className="min-w-0">
+                    <h4 className="text-lg font-semibold leading-snug text-stone-950">
+                      {item.name}
+                    </h4>
+                    {item.description && (
+                      <p className="mt-1 leading-6 text-stone-600">
+                        {item.description}
+                      </p>
+                    )}
+                    {item.allergens && (
+                      <p className="mt-2 text-xs font-medium uppercase tracking-[0.16em] text-stone-500">
+                        Alérgenos: {item.allergens}
+                      </p>
+                    )}
+                  </div>
+                  <p className="shrink-0 rounded-full bg-cream px-3 py-1 text-base font-bold text-wine">
+                    {item.price}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
 function InfoPill({ icon: Icon, label, value }) {
   return (
     <div className="flex items-center gap-3">
@@ -441,6 +624,8 @@ function Footer() {
 
 export default function App() {
   const [hash, setHash] = useState(window.location.hash);
+  const path = window.location.pathname;
+  const currentPage = hash === "#/carta" || path.endsWith("/carta") ? "menu" : "home";
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -454,5 +639,10 @@ export default function App() {
     };
   }, []);
 
-  return hash === "#/carta" ? <MenuPage /> : <HomePage />;
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [currentPage]);
+
+  return currentPage === "menu" ? <MenuPage /> : <HomePage />;
 }
+
