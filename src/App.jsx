@@ -324,9 +324,7 @@ function MenuPage() {
             <h1 className="mt-3 font-serif text-5xl leading-none text-stone-950 sm:text-7xl">
               Casa Nadia
             </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-650">
-              Carta organizada en dos apartados para que desde el QR sea más fácil elegir entre desayunos o comida y cena.
-            </p>
+           
           </div>
           <div className="rounded-lg bg-white p-5 shadow-sm ring-1 ring-stone-200">
             <div className="grid gap-4 sm:grid-cols-3">
