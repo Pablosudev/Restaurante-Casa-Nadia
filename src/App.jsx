@@ -13,11 +13,47 @@
   Utensils,
   X,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { breakfastMenuData, foodMenuData, menuData, restaurantInfo } from "./data/menuData";
 import heroImage from "./assets/casa-nadia-hero.png";
 import menuDelDiaImage from "./assets/menu-del-dia.png";
 import pollosAsadosImage from "./assets/pollos-asados.png";
+
+// Midnight in Madrid after 18 October 2026 (still on summer time).
+const closureNoticeEndsAt = Date.parse("2026-10-19T00:00:00+02:00");
+const ClosureNoticeContext = createContext(false);
+
+function ClosureNotice({ compact = false }) {
+  const visible = useContext(ClosureNoticeContext);
+  if (!visible) return null;
+
+  if (compact) {
+    return (
+      <p className="mt-3 text-sm leading-6 text-wine">
+        <strong>17 y 18 de octubre:</strong> permaneceremos cerrados por motivos personales.
+      </p>
+    );
+  }
+
+  return (
+    <div className="closure-notice-space">
+      <aside className="closure-notice" aria-labelledby="closure-notice-title">
+        <span className="closure-notice-date" aria-hidden="true">
+          <span className="closure-notice-month">Octubre</span>
+          <span className="closure-notice-days">17 · 18</span>
+          <span className="closure-notice-date-rule" />
+        </span>
+        <div>
+          <p id="closure-notice-title" className="closure-notice-title">Una nota de Casa Nadia</p>
+          <p className="closure-notice-message">
+            Los días <strong>17 y 18 de octubre</strong> permaneceremos cerrados por motivos personales.
+          </p>
+          <p className="closure-notice-thanks">Gracias por vuestra comprensión.</p>
+        </div>
+      </aside>
+    </div>
+  );
+}
 
 function whatsappUrl() {
   const text = encodeURIComponent(
@@ -86,12 +122,13 @@ function ButtonLink({ href, children, variant = "primary", className = "" }) {
 }
 
 function HomePage() {
+  const closureNoticeVisible = useContext(ClosureNoticeContext);
   return (
     <div className="bg-cream text-stone-950">
       <Header page="home" />
 
       <main>
-        <section className="relative min-h-[92svh] overflow-hidden bg-stone-950 text-white">
+        <section className="relative flex min-h-[92svh] flex-col overflow-hidden bg-stone-950 text-white">
           <img
             className="absolute inset-0 h-full w-full object-cover opacity-58"
             src={heroImage}
@@ -99,8 +136,9 @@ function HomePage() {
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(28,20,14,0.92),rgba(28,20,14,0.68)_45%,rgba(28,20,14,0.25))]" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-cream to-transparent" />
+          <ClosureNotice />
 
-          <div className="relative mx-auto flex min-h-[92svh] max-w-7xl items-end px-4 pb-20 pt-32 sm:px-6 lg:px-8">
+          <div className={`relative mx-auto flex w-full max-w-7xl items-end px-4 pb-20 ${closureNoticeVisible ? "flex-1 pt-10 sm:pt-14" : "min-h-[92svh] pt-32"} sm:px-6 lg:px-8`}>
             <div className="max-w-3xl">
               <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-amber-100/25 bg-white/10 px-4 py-2 text-sm font-medium text-amber-50 backdrop-blur">
                 <Sparkles className="size-4" />
@@ -311,13 +349,15 @@ function HomePage() {
 }
 
 function MenuPage() {
+  const closureNoticeVisible = useContext(ClosureNoticeContext);
   const [showHours, setShowHours] = useState(false);
 
   return (
-    <div className="min-h-screen bg-cream text-stone-950">
+    <div className={`min-h-screen bg-cream text-stone-950 ${closureNoticeVisible ? "menu-page-with-notice" : ""}`}>
       <Header page="menu" />
+      <ClosureNotice />
 
-      <main className="mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
+      <main className={`mx-auto max-w-7xl px-4 pb-16 ${closureNoticeVisible ? "pt-8" : "pt-28"} sm:px-6 lg:px-8`}>
         <section className="grid gap-8 border-b border-stone-250 pb-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
             <p className="section-kicker">Carta completa</p>
@@ -348,6 +388,7 @@ function MenuPage() {
                   >
                     Consultar horarios
                   </button>
+                  <ClosureNotice compact />
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -501,6 +542,7 @@ function HoursModal({ onClose }) {
           <p className="whitespace-pre-line font-semibold leading-7 text-stone-950">
             {restaurantInfo.hours}
           </p>
+          <ClosureNotice compact />
           <p className="mt-4 leading-7 text-stone-650">
             Para encargos de pollos asados o dudas sobre el menú del día,
             consúltanos por WhatsApp.
@@ -606,6 +648,7 @@ function Footer() {
         <div>
           <p className="font-semibold text-stone-950">Horario</p>
           <p className="mt-2 whitespace-pre-line">{restaurantInfo.hours}</p>
+          <ClosureNotice compact />
         </div>
         <div className="md:text-right">
           <p className="font-semibold text-stone-950">Contacto</p>
@@ -622,6 +665,20 @@ function Footer() {
 }
 
 export default function App() {
+  const [closureNoticeVisible, setClosureNoticeVisible] = useState(
+    () => Date.now() < closureNoticeEndsAt,
+  );
+
+  useEffect(() => {
+    const refreshNotice = () => setClosureNoticeVisible(Date.now() < closureNoticeEndsAt);
+    // Recheck open tabs too, including when returning from a suspended tab.
+    const interval = window.setInterval(refreshNotice, 30_000);
+    document.addEventListener("visibilitychange", refreshNotice);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", refreshNotice);
+    };
+  }, []);
   const path = window.location.pathname;
   const currentPage = path === "/carta" || path.startsWith("/carta/") ? "menu" : "home";
 
@@ -629,6 +686,10 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  return currentPage === "menu" ? <MenuPage /> : <HomePage />;
+  return (
+    <ClosureNoticeContext.Provider value={closureNoticeVisible}>
+      {currentPage === "menu" ? <MenuPage /> : <HomePage />}
+    </ClosureNoticeContext.Provider>
+  );
 }
 
