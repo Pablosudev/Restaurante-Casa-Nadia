@@ -19,8 +19,8 @@ import heroImage from "./assets/casa-nadia-hero.png";
 import menuDelDiaImage from "./assets/menu-del-dia.png";
 import pollosAsadosImage from "./assets/pollos-asados.png";
 
-// Midnight in Madrid after 18 October 2026 (still on summer time).
-const closureNoticeEndsAt = Date.parse("2026-10-19T00:00:00+02:00");
+// Midnight in Madrid after 23 November 2026 (standard time).
+const closureNoticeEndsAt = Date.parse("2026-11-24T00:00:00+01:00");
 const ClosureNoticeContext = createContext(false);
 
 function ClosureNotice({ compact = false }) {
@@ -30,7 +30,7 @@ function ClosureNotice({ compact = false }) {
   if (compact) {
     return (
       <p className="mt-3 text-sm leading-6 text-wine">
-        <strong>17 y 18 de octubre:</strong> permaneceremos cerrados por motivos personales.
+        <strong>Del 2 al 23 de noviembre:</strong> permaneceremos cerrados por vacaciones.
       </p>
     );
   }
@@ -39,14 +39,14 @@ function ClosureNotice({ compact = false }) {
     <div className="closure-notice-space">
       <aside className="closure-notice" aria-labelledby="closure-notice-title">
         <span className="closure-notice-date" aria-hidden="true">
-          <span className="closure-notice-month">Octubre</span>
-          <span className="closure-notice-days">17 · 18</span>
+          <span className="closure-notice-month">Noviembre</span>
+          <span className="closure-notice-days">2 – 23</span>
           <span className="closure-notice-date-rule" />
         </span>
         <div>
           <p id="closure-notice-title" className="closure-notice-title">Una nota de Casa Nadia</p>
           <p className="closure-notice-message">
-            Los días <strong>17 y 18 de octubre</strong> permaneceremos cerrados por motivos personales.
+            Del <strong>2 al 23 de noviembre</strong> permaneceremos cerrados por vacaciones.
           </p>
           <p className="closure-notice-thanks">Gracias por vuestra comprensión.</p>
         </div>
