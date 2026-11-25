@@ -206,6 +206,551 @@ a {
   }
 }
 
+/* ---------- Menús de Navidad ---------- */
+
+/* Cinta en la portada */
+.xmas-ribbon {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 1.25rem;
+  padding: 0.6rem 0.75rem 0.6rem 0.9rem;
+  overflow: hidden;
+  border: 1px solid #e6c77f;
+  border-radius: 0.75rem;
+  background: linear-gradient(120deg, #8a2a3a, #5f1926);
+  box-shadow: 0 10px 30px #00000059, inset 0 1px 0 #ffffff26;
+  color: #fff8ea;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.xmas-ribbon::after {
+  /* Destello dorado que cruza la cinta */
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, #f0d59340 50%, transparent 60%);
+  transform: translateX(-100%);
+  animation: xmas-shimmer 4.5s ease-in-out 1.2s infinite;
+}
+
+.xmas-ribbon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px #00000073, inset 0 1px 0 #ffffff26;
+}
+
+.xmas-ribbon:focus-visible {
+  outline: 3px solid #e6c77f;
+  outline-offset: 3px;
+}
+
+.xmas-ribbon-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.6rem;
+  font-size: 0.95rem;
+}
+
+.xmas-ribbon-text strong {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.xmas-ribbon-price {
+  color: #f0d593;
+  font-weight: 600;
+}
+
+.xmas-ribbon-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #e6c77f, #c29a48);
+  color: #3f0f18;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+@keyframes xmas-shimmer {
+  0%,
+  60% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Nevada */
+.snowfall {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.snowfall span {
+  position: absolute;
+  top: -12px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 6px #ffffffb3;
+  animation-name: snowfall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes snowfall {
+  to {
+    transform: translate3d(var(--drift, 0), 100svh, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snowfall {
+    display: none;
+  }
+
+  .xmas-ribbon::after {
+    animation: none;
+  }
+}
+
+.xmas-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 50rem 30rem at 50% 0%, #2c4a3a 0%, transparent 70%),
+    radial-gradient(ellipse 40rem 26rem at 90% 100%, #5f192640 0%, transparent 70%),
+    #13201a;
+}
+
+.xmas-section::before {
+  /* Lucecitas doradas de fondo */
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle, #f3d48a 0 1px, transparent 1.5px),
+    radial-gradient(circle, #f3d48a99 0 1px, transparent 1.5px);
+  background-size: 140px 140px, 90px 90px;
+  background-position: 0 0, 45px 60px;
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+}
+
+.xmas-deck {
+  display: flex;
+  gap: 1.25rem;
+  margin-inline: -1rem;
+  padding: 1.5rem 1rem 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.xmas-deck::-webkit-scrollbar {
+  display: none;
+}
+
+.xmas-card-slot {
+  position: relative;
+  flex: none;
+  width: min(78vw, 20rem);
+  scroll-snap-align: center;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.xmas-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  perspective: 1400px;
+  text-align: center;
+}
+
+.xmas-card:focus-visible {
+  outline: 3px solid #e6c77f;
+  outline-offset: 6px;
+  border-radius: 1rem;
+}
+
+.xmas-card-inner {
+  position: relative;
+  display: block;
+  aspect-ratio: 5 / 7;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.xmas-card.is-flipped .xmas-card-inner,
+.xmas-card:focus-visible .xmas-card-inner {
+  transform: rotateY(180deg);
+}
+
+.xmas-card-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 24px 50px #00000073, 0 2px 0 #ffffff14 inset;
+}
+
+.xmas-card-front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  color: #f3e3bf;
+  background:
+    radial-gradient(circle at 50% 0%, #3b6b50 0%, transparent 60%),
+    linear-gradient(160deg, #24452f, #142a1f);
+}
+
+.is-featured .xmas-card-front {
+  background:
+    radial-gradient(circle at 50% 0%, #a8394b 0%, transparent 60%),
+    linear-gradient(160deg, #7b2332, #3f0f18);
+}
+
+/* Doble marco dorado */
+.xmas-card-front::before,
+.xmas-card-front::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  border-radius: 0.55rem;
+}
+
+.xmas-card-front::before {
+  inset: 0.65rem;
+  border: 1px solid #d6b56d99;
+}
+
+.xmas-card-front::after {
+  inset: 0.95rem;
+  border: 1px solid #d6b56d33;
+}
+
+.xmas-card-holly {
+  width: 4rem;
+  height: 2.5rem;
+}
+
+.xmas-card-kicker {
+  margin-top: 0.9rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #e6c77f;
+}
+
+.xmas-card-number {
+  margin-top: 0.4rem;
+  font-family: var(--font-serif);
+  font-size: 5.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #f0d593;
+  text-shadow: 0 2px 18px #e6c77f40;
+}
+
+.xmas-card-tagline {
+  margin-top: 0.35rem;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.xmas-card-price {
+  display: grid;
+  place-content: center;
+  width: 6rem;
+  height: 6rem;
+  margin-top: 1.4rem;
+  border: 2px solid #e6c77f;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #a3374a, #6a1c29);
+  box-shadow: 0 8px 20px #0000004d, 0 0 0 5px #e6c77f26;
+  color: #fff;
+}
+
+.is-featured .xmas-card-price {
+  background: radial-gradient(circle at 35% 30%, #3f7a4f, #1d3a2b);
+}
+
+.xmas-card-price-amount {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.xmas-card-price-note {
+  margin-top: 0.2rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.xmas-card-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #e6c77fcc;
+}
+
+.xmas-hint-hover {
+  display: none;
+}
+
+.xmas-card-back {
+  transform: rotateY(180deg);
+  background: #f6eedd;
+}
+
+.xmas-card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.xmas-seal {
+  position: absolute;
+  top: -0.9rem;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  padding: 0.4rem 1rem;
+  border: 1px solid #f0d593;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #e6c77f, #b8913f);
+  box-shadow: 0 6px 16px #00000059;
+  color: #3f0f18;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.xmas-card-open-badge {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  background: #1c1814d9;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+}
+
+/* Ventana con el menú ampliado */
+.xmas-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: #0c120fd9;
+  backdrop-filter: blur(6px);
+  animation: xmas-fade-in 0.25s ease-out;
+}
+
+.xmas-modal {
+  position: relative;
+  display: grid;
+  width: min(64rem, 100%);
+  max-height: calc(100svh - 2rem);
+  overflow-y: auto;
+  border-radius: 1rem;
+  background: var(--color-cream);
+  box-shadow: 0 30px 80px #00000080;
+  animation: xmas-pop-in 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.xmas-modal-image {
+  position: relative;
+  height: 62svh;
+  overflow: auto;
+  background: #efe4cf;
+}
+
+.xmas-modal-zoom {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.xmas-modal-zoom img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.xmas-modal-image.is-zoomed .xmas-modal-zoom {
+  width: 200%;
+  height: auto;
+  cursor: zoom-out;
+}
+
+.xmas-modal-image.is-zoomed .xmas-modal-zoom img {
+  height: auto;
+}
+
+.xmas-modal-zoom-hint {
+  pointer-events: none;
+  position: sticky;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  float: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: -2.75rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  background: #1c1814cc;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.xmas-modal-info {
+  position: relative;
+  padding: 1.75rem 1.5rem 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .xmas-modal {
+    grid-template-columns: 1.05fr 0.95fr;
+    height: min(88svh, 52rem);
+    overflow: hidden;
+  }
+
+  .xmas-modal-image {
+    height: 100%;
+  }
+
+  .xmas-modal-info {
+    overflow-y: auto;
+    padding: 2.5rem 2.25rem 1.75rem;
+  }
+}
+
+@keyframes xmas-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes xmas-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.97);
+  }
+}
+
+@media (hover: hover) {
+  .xmas-card:hover .xmas-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .xmas-hint-touch {
+    display: none;
+  }
+
+  .xmas-hint-hover {
+    display: inline;
+  }
+}
+
+/* Abanico de cartas en pantallas medianas y grandes */
+@media (min-width: 768px) {
+  .xmas-deck {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: 2rem;
+    max-width: 62rem;
+    margin-inline: auto;
+    padding: 1.5rem 0 2rem;
+    overflow: visible;
+  }
+
+  .xmas-card-slot {
+    width: auto;
+  }
+
+  .xmas-card-slot:nth-child(1) {
+    transform: rotate(-5deg) translateY(1.5rem);
+  }
+
+  .xmas-card-slot:nth-child(3) {
+    transform: rotate(5deg) translateY(1.5rem);
+  }
+
+  .xmas-card-slot.is-featured {
+    z-index: 1;
+    transform: rotate(5deg) translateY(1.5rem) scale(1.06);
+  }
+
+  .xmas-card-slot:hover,
+  .xmas-card-slot:focus-within {
+    z-index: 3;
+    transform: rotate(0) translateY(-0.5rem) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xmas-card-slot,
+  .xmas-card-inner {
+    transition: none;
+  }
+
+  .xmas-modal-backdrop,
+  .xmas-modal {
+    animation: none;
+  }
+}
+
 @media (max-width: 460px) {
   .menu-item {
     grid-template-columns: 1fr;

@@ -190,3 +190,94 @@ export const foodMenuData = [
 ];
 
 export const menuData = [...breakfastMenuData, ...foodMenuData];
+
+// Menús especiales de Navidad. Las imágenes se importan en App.jsx usando `image`
+// como clave. El texto se repite aquí para que sea accesible e indexable.
+export const christmasMenus = [
+  {
+    id: "navidad-48",
+    number: "I",
+    price: "48 €",
+    tagline: "El clásico",
+    image: "menu-navidad-48",
+    sections: [
+      { title: "Aperitivos de bienvenida", items: ["Copa de cava y canapés variados"] },
+      {
+        title: "Entrantes",
+        items: [
+          "Ensaladilla de pollo",
+          "Tosta de pan con crema de queso y rosa de salmón",
+          "Pastel de salmón, aguacate y gambas",
+        ],
+      },
+      {
+        title: "Plato principal (a elegir)",
+        items: [
+          "Costillas de cerdo al horno con patatas panaderas",
+          "Entrecot de ternera con pimientos de padrón",
+          "Rodaballo al horno en cama de verduras",
+        ],
+      },
+      { title: "Postres", items: ["Postres caseros"] },
+      { title: "Bebidas", items: ["Agua, vino y Casera"] },
+    ],
+  },
+  {
+    id: "navidad-55",
+    number: "II",
+    price: "55 €",
+    tagline: "Mar y montaña",
+    image: "menu-navidad-55",
+    sections: [
+      {
+        title: "Aperitivos",
+        items: ["Copa de cava y volovanes rellenos de marisco", "Aperitivos variados"],
+      },
+      {
+        title: "Entrantes",
+        items: ["Crema de marisco", "Ensaladilla rusa y croquetas caseras"],
+      },
+      {
+        title: "Plato principal (a elegir)",
+        items: [
+          "Codillo de cerdo al horno con patatas panaderas",
+          "Solomillo de cerdo en salsa de Pedro Ximénez en cama de patata",
+          "Cachopo tradicional con patatas y pimientos de padrón",
+          "Lomo de merluza en salsa verde",
+        ],
+      },
+      { title: "Postres", items: ["Postres caseros"] },
+      {
+        title: "Bebidas",
+        items: ["Vino, Casera y agua", "Vino blanco Verdejo", "Vino tinto Pata Negra"],
+      },
+    ],
+  },
+  {
+    id: "navidad-75",
+    number: "III",
+    price: "75 €",
+    tagline: "El gran banquete",
+    featured: true,
+    image: "menu-navidad-75",
+    sections: [
+      {
+        title: "Aperitivos de bienvenida",
+        items: ["Copa de vino Ramón Bilbao y canapés variados", "Tabla de patés"],
+      },
+      {
+        title: "Entrantes",
+        items: ["Tabla de embutidos ibéricos", "Bomba de salmón y aguacate"],
+      },
+      {
+        title: "Plato principal (a elegir)",
+        items: [
+          "Paletilla de lechal en cama de patata panadera",
+          "Emperador a la plancha con ensalada de la casa",
+        ],
+      },
+      { title: "Postres", items: ["Postres caseros variados"] },
+      { title: "Bebidas", items: ["Vino, Casera y agua"] },
+    ],
+  },
+];

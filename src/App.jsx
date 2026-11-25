@@ -2,6 +2,8 @@
   ArrowRight,
   CalendarDays,
   ChefHat,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   Flame,
   MapPin,
@@ -12,16 +14,44 @@
   Truck,
   Utensils,
   X,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
-import { createContext, useContext, useState, useEffect } from "react";
-import { breakfastMenuData, foodMenuData, menuData, restaurantInfo } from "./data/menuData";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  breakfastMenuData,
+  christmasMenus,
+  foodMenuData,
+  restaurantInfo,
+} from "./data/menuData";
 import heroImage from "./assets/casa-nadia-hero.png";
 import menuDelDiaImage from "./assets/menu-del-dia.png";
 import pollosAsadosImage from "./assets/pollos-asados.png";
+import navidad48Image from "./assets/menu-navidad-48.jpg";
+import navidad55Image from "./assets/menu-navidad-55.jpg";
+import navidad75Image from "./assets/menu-navidad-75.jpg";
+
+const christmasImages = {
+  "menu-navidad-48": navidad48Image,
+  "menu-navidad-55": navidad55Image,
+  "menu-navidad-75": navidad75Image,
+};
 
 // Midnight in Madrid after 23 November 2026 (standard time).
 const closureNoticeEndsAt = Date.parse("2026-11-24T00:00:00+01:00");
 const ClosureNoticeContext = createContext(false);
+
+// Christmas menus stay visible through 6 January 2027 (Reyes) and disappear at midnight in Madrid.
+const christmasEndsAt = Date.parse("2027-01-07T00:00:00+01:00");
+const ChristmasContext = createContext(false);
 
 function ClosureNotice({ compact = false }) {
   const visible = useContext(ClosureNoticeContext);
@@ -55,11 +85,346 @@ function ClosureNotice({ compact = false }) {
   );
 }
 
-function whatsappUrl() {
-  const text = encodeURIComponent(
-    "Hola Casa Nadia, me gustaría hacer una reserva.",
+function whatsappUrl(message = "Hola Casa Nadia, me gustaría hacer una reserva.") {
+  return `https://wa.me/${restaurantInfo.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+function HollyIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 64 40" className={className} aria-hidden="true">
+      <path
+        d="M32 24C26 12 14 6 3 9c4 2 5 6 3 10 4-1 8 1 8 5 4-3 9-3 12 1 1-3 3-4 6-1Z"
+        fill="#3f7a4f"
+      />
+      <path
+        d="M32 24c6-12 18-18 29-15-4 2-5 6-3 10-4-1-8 1-8 5-4-3-9-3-12 1-1-3-3-4-6-1Z"
+        fill="#2f6340"
+      />
+      <circle cx="27.5" cy="26" r="4.4" fill="#c8323f" />
+      <circle cx="36.5" cy="26" r="4.4" fill="#b02634" />
+      <circle cx="32" cy="32.5" r="4.4" fill="#d6404c" />
+    </svg>
   );
-  return `https://wa.me/${restaurantInfo.whatsapp}?text=${text}`;
+}
+
+const christmasStartingPrice = Math.min(
+  ...christmasMenus.map((menu) => Number.parseFloat(menu.price.replace(",", "."))),
+);
+
+function ChristmasRibbon() {
+  return (
+    <a href="#navidad" className="xmas-ribbon">
+      <HollyIcon className="h-6 w-10 shrink-0" />
+      <span className="xmas-ribbon-text">
+        <strong>Menús especiales de Navidad</strong>
+        <span className="xmas-ribbon-price">desde {christmasStartingPrice} €</span>
+      </span>
+      <span className="xmas-ribbon-cta">
+        Ver menús <ArrowRight className="size-4" />
+      </span>
+    </a>
+  );
+}
+
+function Snowfall({ flakes = 42 }) {
+  // Deterministic pseudo-random values so the snow doesn't jump between renders.
+  const snowflakes = useMemo(
+    () =>
+      Array.from({ length: flakes }, (_, i) => {
+        const r = (seed) => {
+          const x = Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453;
+          return x - Math.floor(x);
+        };
+        return {
+          left: `${r(1) * 100}%`,
+          size: `${2 + r(2) * 4}px`,
+          duration: `${9 + r(3) * 10}s`,
+          delay: `${-r(4) * 18}s`,
+          drift: `${(r(5) - 0.5) * 80}px`,
+          opacity: 0.35 + r(6) * 0.5,
+        };
+      }),
+    [flakes],
+  );
+
+  return (
+    <div className="snowfall" aria-hidden="true">
+      {snowflakes.map((flake, i) => (
+        <span
+          key={i}
+          style={{
+            left: flake.left,
+            width: flake.size,
+            height: flake.size,
+            opacity: flake.opacity,
+            animationDuration: flake.duration,
+            animationDelay: flake.delay,
+            "--drift": flake.drift,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function ChristmasCard({ menu, onOpen }) {
+  const [flipped, setFlipped] = useState(false);
+
+  const handleClick = () => {
+    // With a mouse the card already flips on hover, so a click opens it.
+    // On touch screens the first tap flips it and the second one opens it.
+    if (flipped || window.matchMedia("(hover: hover)").matches) {
+      onOpen();
+      return;
+    }
+    setFlipped(true);
+  };
+
+  return (
+    <div className={`xmas-card-slot ${menu.featured ? "is-featured" : ""}`}>
+      {menu.featured && <span className="xmas-seal">La más completa</span>}
+      <button
+        type="button"
+        onClick={handleClick}
+        className={`xmas-card ${flipped ? "is-flipped" : ""}`}
+        aria-pressed={flipped}
+        aria-haspopup="dialog"
+        aria-label={`Menú de Navidad ${menu.number}, ${menu.price} por persona: ${menu.tagline}. Ver el menú completo`}
+      >
+        <span className="xmas-card-inner">
+          <span className="xmas-card-face xmas-card-front">
+            <HollyIcon className="xmas-card-holly" />
+            <span className="xmas-card-kicker">Menú especial de Navidad</span>
+            <span className="xmas-card-number">{menu.number}</span>
+            <span className="xmas-card-tagline">{menu.tagline}</span>
+            <span className="xmas-card-price">
+              <span className="xmas-card-price-amount">{menu.price}</span>
+              <span className="xmas-card-price-note">por persona</span>
+            </span>
+            <span className="xmas-card-hint">
+              <Sparkles className="size-3.5" />
+              <span className="xmas-hint-touch">Toca para descubrirlo</span>
+              <span className="xmas-hint-hover">Descubre el menú</span>
+            </span>
+          </span>
+          <span className="xmas-card-face xmas-card-back">
+            <img
+              src={christmasImages[menu.image]}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <span className="xmas-card-open-badge">
+              <ZoomIn className="size-4" /> Ver en grande
+            </span>
+          </span>
+        </span>
+      </button>
+    </div>
+  );
+}
+
+function ChristmasMenuModal({ index, onClose, onNavigate }) {
+  const menu = christmasMenus[index];
+  const [zoomed, setZoomed] = useState(false);
+  const closeButtonRef = useRef(null);
+  const imagePaneRef = useRef(null);
+
+  useEffect(() => {
+    setZoomed(false);
+    imagePaneRef.current?.scrollTo({ top: 0, left: 0 });
+  }, [index]);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowRight") onNavigate(1);
+      if (event.key === "ArrowLeft") onNavigate(-1);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus?.();
+    };
+  }, [onClose, onNavigate]);
+
+  const reserveMessage = `Hola Casa Nadia, me gustaría reservar el Menú de Navidad ${menu.number} (${menu.price} por persona) para __ personas el día __.`;
+
+  return (
+    <div className="xmas-modal-backdrop" onClick={onClose} role="presentation">
+      <div
+        className="xmas-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="xmas-modal-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div
+          ref={imagePaneRef}
+          className={`xmas-modal-image ${zoomed ? "is-zoomed" : ""}`}
+        >
+          <button
+            type="button"
+            onClick={() => setZoomed((value) => !value)}
+            className="xmas-modal-zoom"
+            aria-label={zoomed ? "Reducir imagen" : "Ampliar imagen"}
+          >
+            <img
+              src={christmasImages[menu.image]}
+              alt={`Cartel del Menú de Navidad ${menu.number}`}
+            />
+          </button>
+          <span className="xmas-modal-zoom-hint" aria-hidden="true">
+            {zoomed ? <ZoomOut className="size-4" /> : <ZoomIn className="size-4" />}
+            {zoomed ? "Toca para reducir" : "Toca para ampliar"}
+          </span>
+        </div>
+
+        <div className="xmas-modal-info">
+          <button
+            ref={closeButtonRef}
+            type="button"
+            onClick={onClose}
+            className="absolute right-4 top-4 grid size-10 place-items-center rounded-full bg-white text-stone-700 ring-1 ring-stone-200 transition hover:text-wine"
+            aria-label="Cerrar menú"
+          >
+            <X className="size-5" />
+          </button>
+
+          <p className="section-kicker pr-12">Menú de Navidad {menu.number}</p>
+          <div className="mt-2 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 pr-12">
+            <h2 id="xmas-modal-title" className="font-serif text-4xl leading-tight text-stone-950">
+              {menu.tagline}
+            </h2>
+            <p className="font-serif text-3xl font-bold text-wine">
+              {menu.price}
+              <span className="ml-1 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-stone-500">
+                por persona
+              </span>
+            </p>
+          </div>
+
+          <div className="mt-6 space-y-5">
+            {menu.sections.map((section) => (
+              <section key={section.title}>
+                <h3 className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-olive">
+                  {section.title}
+                  <span className="h-px flex-1 bg-stone-250" aria-hidden="true" />
+                </h3>
+                <ul className="mt-2 space-y-1.5">
+                  {section.items.map((item) => (
+                    <li key={item} className="leading-6 text-stone-800">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+
+          <ButtonLink href={whatsappUrl(reserveMessage)} className="mt-8 w-full">
+            <Phone className="size-4" /> Reservar este menú por WhatsApp
+          </ButtonLink>
+
+          <div className="mt-4 flex items-center justify-between gap-3 border-t border-stone-200 pt-4 text-sm font-semibold text-stone-700">
+            <button
+              type="button"
+              onClick={() => onNavigate(-1)}
+              className="inline-flex items-center gap-1 rounded-full px-3 py-2 transition hover:bg-white hover:text-wine"
+            >
+              <ChevronLeft className="size-4" /> Anterior
+            </button>
+            <span className="text-stone-500" aria-live="polite">
+              {index + 1} / {christmasMenus.length}
+            </span>
+            <button
+              type="button"
+              onClick={() => onNavigate(1)}
+              className="inline-flex items-center gap-1 rounded-full px-3 py-2 transition hover:bg-white hover:text-wine"
+            >
+              Siguiente <ChevronRight className="size-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChristmasMenus({ inset = false }) {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const closeModal = useCallback(() => setOpenIndex(null), []);
+  const navigateModal = useCallback((step) => {
+    setOpenIndex((current) =>
+      current === null
+        ? current
+        : (current + step + christmasMenus.length) % christmasMenus.length,
+    );
+  }, []);
+
+  return (
+    <section
+      id="navidad"
+      className={`xmas-section ${
+        inset
+          ? "mb-4 scroll-mt-36 rounded-2xl px-4 py-14 sm:px-8"
+          : "scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8"
+      }`}
+    >
+      <div className="relative mx-auto max-w-7xl">
+        <div className="mx-auto max-w-2xl text-center">
+          <HollyIcon className="mx-auto h-10 w-16" />
+          <p className="mt-3 text-sm font-semibold uppercase tracking-[0.24em] text-amber-200">
+            Estas fiestas, en Casa Nadia
+          </p>
+          <h2 className="mt-3 font-serif text-4xl leading-tight text-amber-50 sm:text-6xl">
+            Menús especiales de Navidad
+          </h2>
+          <p className="mt-5 text-lg leading-8 text-stone-200">
+            Tres maneras de celebrar alrededor de nuestra mesa. Descubre cada
+            carta y elige la tuya.
+          </p>
+        </div>
+
+        <div className="xmas-deck mt-14">
+          {christmasMenus.map((menu, index) => (
+            <ChristmasCard
+              key={menu.id}
+              menu={menu}
+              onOpen={() => setOpenIndex(index)}
+            />
+          ))}
+        </div>
+        <p className="mt-4 text-center text-sm text-stone-400 md:hidden">
+          Desliza para ver los tres menús
+        </p>
+
+        <div className="mt-12 flex justify-center">
+          <ButtonLink
+            href={whatsappUrl("Hola Casa Nadia, me gustaría reservar un menú de Navidad.")}
+          >
+            <Phone className="size-4" /> Reservar menú de Navidad
+          </ButtonLink>
+        </div>
+      </div>
+
+      {openIndex !== null && (
+        <ChristmasMenuModal
+          index={openIndex}
+          onClose={closeModal}
+          onNavigate={navigateModal}
+        />
+      )}
+    </section>
+  );
 }
 
 function Header({ page }) {
@@ -123,6 +488,7 @@ function ButtonLink({ href, children, variant = "primary", className = "" }) {
 
 function HomePage() {
   const closureNoticeVisible = useContext(ClosureNoticeContext);
+  const christmasVisible = useContext(ChristmasContext);
   return (
     <div className="bg-cream text-stone-950">
       <Header page="home" />
@@ -136,10 +502,12 @@ function HomePage() {
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(28,20,14,0.92),rgba(28,20,14,0.68)_45%,rgba(28,20,14,0.25))]" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-cream to-transparent" />
+          {christmasVisible && <Snowfall />}
           <ClosureNotice />
 
           <div className={`relative mx-auto flex w-full max-w-7xl items-end px-4 pb-20 ${closureNoticeVisible ? "flex-1 pt-10 sm:pt-14" : "min-h-[92svh] pt-32"} sm:px-6 lg:px-8`}>
             <div className="max-w-3xl">
+              {christmasVisible && <ChristmasRibbon />}
               <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-amber-100/25 bg-white/10 px-4 py-2 text-sm font-medium text-amber-50 backdrop-blur">
                 <Sparkles className="size-4" />
                 Cocina casera en el corazón de Driebes
@@ -193,6 +561,8 @@ function HomePage() {
             ))}
           </div>
         </section>
+
+        {christmasVisible && <ChristmasMenus />}
 
         <section className="px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl text-center">
@@ -350,6 +720,7 @@ function HomePage() {
 
 function MenuPage() {
   const closureNoticeVisible = useContext(ClosureNoticeContext);
+  const christmasVisible = useContext(ChristmasContext);
   const [showHours, setShowHours] = useState(false);
 
   return (
@@ -468,6 +839,9 @@ function MenuPage() {
         <nav className="sticky top-[65px] z-40 -mx-4 mb-8 overflow-x-auto border-b border-stone-200 bg-cream/95 px-4 py-4 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="flex min-w-max gap-2">
             {[
+              ...(christmasVisible
+                ? [{ id: "navidad", title: "🎄 Navidad", mobileTitle: "🎄 Navidad", highlight: true }]
+                : []),
               { id: "desayunos", title: "Desayunos", mobileTitle: "Desayunos" },
               { id: "comida-cena", title: "Comida y cena", mobileTitle: "Comida" },
               ...foodMenuData.map((section) => ({
@@ -480,7 +854,11 @@ function MenuPage() {
               <a
                 key={section.id}
                 href={`#${section.id}`}
-                className="rounded-full border border-stone-250 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-wine hover:text-wine"
+                className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                  section.highlight
+                    ? "border-wine bg-wine text-white hover:bg-wine-dark"
+                    : "border-stone-250 bg-white text-stone-700 hover:border-wine hover:text-wine"
+                }`}
               >
                 <span className="sm:hidden">{section.mobileTitle}</span>
                 <span className="hidden sm:inline">{section.title}</span>
@@ -489,6 +867,7 @@ function MenuPage() {
           </div>
         </nav>
 
+        {christmasVisible && <ChristmasMenus inset />}
         <MenuBlock id="desayunos" title="Desayunos" sections={breakfastMenuData} />
         <MenuBlock id="comida-cena" title="Comida y cena" sections={foodMenuData} />
 
@@ -668,9 +1047,15 @@ export default function App() {
   const [closureNoticeVisible, setClosureNoticeVisible] = useState(
     () => Date.now() < closureNoticeEndsAt,
   );
+  const [christmasVisible, setChristmasVisible] = useState(
+    () => Date.now() < christmasEndsAt,
+  );
 
   useEffect(() => {
-    const refreshNotice = () => setClosureNoticeVisible(Date.now() < closureNoticeEndsAt);
+    const refreshNotice = () => {
+      setClosureNoticeVisible(Date.now() < closureNoticeEndsAt);
+      setChristmasVisible(Date.now() < christmasEndsAt);
+    };
     // Recheck open tabs too, including when returning from a suspended tab.
     const interval = window.setInterval(refreshNotice, 30_000);
     document.addEventListener("visibilitychange", refreshNotice);
@@ -688,7 +1073,9 @@ export default function App() {
 
   return (
     <ClosureNoticeContext.Provider value={closureNoticeVisible}>
-      {currentPage === "menu" ? <MenuPage /> : <HomePage />}
+      <ChristmasContext.Provider value={christmasVisible}>
+        {currentPage === "menu" ? <MenuPage /> : <HomePage />}
+      </ChristmasContext.Provider>
     </ClosureNoticeContext.Provider>
   );
 }
