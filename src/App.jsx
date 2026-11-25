@@ -39,6 +39,9 @@ import navidad48Image from "./assets/menu-navidad-48.jpg";
 import navidad55Image from "./assets/menu-navidad-55.jpg";
 import navidad75Image from "./assets/menu-navidad-75.jpg";
 
+const HOME_URL = import.meta.env.BASE_URL;
+const CARTA_URL = `${import.meta.env.BASE_URL}carta/`;
+
 const christmasImages = {
   "menu-navidad-48": navidad48Image,
   "menu-navidad-55": navidad55Image,
@@ -432,7 +435,7 @@ function Header({ page }) {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-stone-950/75 text-white backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <a
-          href="/"
+          href={HOME_URL}
           className="group flex items-center gap-3"
           aria-label="Ir al inicio"
         >
@@ -452,13 +455,13 @@ function Header({ page }) {
         <nav className="flex items-center gap-2 text-sm font-medium">
           <a
             className={`rounded-full px-4 py-2 transition ${page === "home" ? "bg-white text-stone-950" : "text-stone-100 hover:bg-white/10"}`}
-            href="/"
+            href={HOME_URL}
           >
             Inicio
           </a>
           <a
             className={`rounded-full px-4 py-2 transition ${page === "menu" ? "bg-white text-stone-950" : "text-stone-100 hover:bg-white/10"}`}
-            href="/carta/"
+            href={CARTA_URL}
           >
             Carta
           </a>
@@ -520,7 +523,7 @@ function HomePage() {
                 de platos de siempre con una presentación cuidada.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/carta/">
+                <ButtonLink href={CARTA_URL}>
                   Ver carta completa <ArrowRight className="size-4" />
                 </ButtonLink>
                 <ButtonLink href={whatsappUrl()} variant="outline">
@@ -642,7 +645,7 @@ function HomePage() {
                     </div>
                   </div>
                   <div className="mt-7">
-                    <ButtonLink href="/carta/" variant="secondary">
+                    <ButtonLink href={CARTA_URL} variant="secondary">
                       <MenuIcon className="size-4" /> Ver carta
                     </ButtonLink>
                   </div>
@@ -706,7 +709,7 @@ function HomePage() {
               <ButtonLink href={whatsappUrl()}>
                 <Phone className="size-4" /> WhatsApp
               </ButtonLink>
-              <ButtonLink href="/carta/" variant="outline">
+              <ButtonLink href={CARTA_URL} variant="outline">
                 <MenuIcon className="size-4" /> Carta
               </ButtonLink>
             </div>
@@ -1065,7 +1068,7 @@ export default function App() {
     };
   }, []);
   const path = window.location.pathname;
-  const currentPage = path === "/carta" || path.startsWith("/carta/") ? "menu" : "home";
+  const currentPage = /\/carta(\/|$)/.test(path) ? "menu" : "home";
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
